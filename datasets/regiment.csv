@@ -1,0 +1,13 @@
+index,regiment,company,name,preTestScore,postTestScore
+0,Nighthawks,1st,Miller,4,25
+1,Nighthawks,1st,Jacobson,24,94
+2,Nighthawks,2nd,Ali,31,57
+3,Nighthawks,2nd,Milner,2,62
+4,Dragoons,1st,Cooze,3,70
+5,Dragoons,1st,Jacon,4,25
+6,Dragoons,2nd,Ryaner,24,94
+7,Dragoons,2nd,Sone,31,57
+8,Scouts,1st,Sloan,2,62
+9,Scouts,1st,Piger,3,70
+10,Scouts,2nd,Riani,2,62
+11,Scouts,2nd,Ali,3,70
