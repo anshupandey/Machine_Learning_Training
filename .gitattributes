@@ -1,3 +1,5 @@
 datasets/traffic-signs-data/train.p filter=lfs diff=lfs merge=lfs -text
 datasets/catdogdata/train.p filter=lfs diff=lfs merge=lfs -text
 datasets/catdogdata/test.p filter=lfs diff=lfs merge=lfs -text
+datasets/Amazon_Unlocked_Mobile.csv filter=lfs diff=lfs merge=lfs -text
+datasets/Consumer_Complaints_finance.csv filter=lfs diff=lfs merge=lfs -text
