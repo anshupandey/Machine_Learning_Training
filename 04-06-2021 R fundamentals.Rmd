@@ -184,3 +184,105 @@ head(df)
 
 ```
 
+### List
+  - multiple values of different data types
+  - ca be defined using function - list()
+  
+```{r}
+x = list(12,25,'hi','helo',12.56,12L)
+x
+```
+### Arrays
+  - used to store data, can also be used to store data with more than 2 dimensions
+  - ca be defined using function - array()
+
+```{r}
+a = array(c(7,5,4,2,3,6,5,8,9,5,1,2,4,4,3,3),dim=c(4,2,2))
+a
+```
+### Factors
+  - used to represent categorical variables
+  - can be defined using factor()
+  
+```{r}
+w = c("yellow",'green','green','yellow','red','red')
+w = factor(w)
+w
+```
+```{r}
+class(w)
+nlevels(w)
+```
+# COntrol FLow
+## if else
+
+```{r}
+age = 12
+if (age<18){
+  print('You are a kid')
+  print("learn maths and coding, play football and enjoy")
+}
+```
+```{r}
+age = 12
+if (age<18){
+  print('You are a kid')
+  print("learn maths and coding, play football and enjoy")
+} else if (age>=18 & age<=30){
+  print("Now its time to explore the world")
+  print("Go outside, learn, earn, ad enjoy")
+} else {
+  print("now its time to settle down")
+}
+```
+
+```{r}
+for (i in 1:5){
+  print("R is simple and easy")
+}
+```
+
+```{r}
+x = 3
+while (x<12) {
+  print("R is awesome and powerful")
+  x = x+1
+}
+```
+
+# Functions in R
+```{r}
+```
+
+
+```{r}
+x = c(7,5,3,6,9,8,5)
+unique(x)
+sort(x)
+mean(x)
+sum(x)
+median(x)
+var(x)
+```
+
+```{r}
+myfun = function(a,b){
+  c = a+b
+  return (c)
+}
+```
+
+```{r}
+myfun(4,6)
+```
+
+```{r}
+install.packages("moments")
+```
+```{r}
+library(moments)
+```
+```{r}
+skewness(c(7,8,4,5,7,8,4,5,788,4,5))
+```
+

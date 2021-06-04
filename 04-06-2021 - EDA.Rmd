@@ -1,0 +1,66 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1. Domain Exploration, problem formulation
+  - understand the business process, common beleifs, recent events
+  
+2. Data Collection, Data Exploration
+  - collect data from multiple units, compile, for a dataset
+  - perform a generic exploration to the dataset, identify the common challenges in the dataset
+  
+3. Data Cleaning
+  - Handle duplicate entries
+  - Handle missing values
+  - Handle unwanted columns
+  - Handle outliers
+  
+4. Exploratory Data Analytics / Root Cause Analytics
+  - Data Visualization
+    - Univariate Analysis
+    - Bivariate Analsis
+    - Multivariate Analysis
+    
+  - Statistical Research
+    - Correlation Analysis
+    - ANOVA, Chi square test
+    
+5. Prepare a report
+  - Data/statistical Observations
+  - Business inference of observations
+  - Recommendations
+
+## 2. Data Collection and Data Exploration
+
+```{r}
+#load libraries
+
+```
+
+```{r}
+# load dataset
+df = read.csv("D:\\AI\\data\\datasets-1\\Bank_churn_modelling.csv")
+dim(df)
+```
+```{r}
+head(df)
+```
+```{r}
+str(df)
+```
+```{r}
+unique(df$Gender)
+unique(df$Geography)
+```
+```{r}
+summary(df)
+```
+
+
+Observations - 
+  - RowNumber, Customerid and surname are unwanted columns
+  - approx more than 25% of the customers have 0 balance
+  - age,balance may have outliers
+
+## 3. Data Cleaning
