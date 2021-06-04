@@ -1,0 +1,186 @@
+---
+title: "R Fundamentals"
+output: html_notebook
+---
+THe white space is for notes - markdown space
+THe gray space - r chunk - coding where we write r codes and execute using ctrl+shift+enter
+
+to add new r chunk - you can use ctrl+alt+i or else you can add it from above insert button on top
+
+ 
+
+```{r}
+```
+
+
+```{r}
+print("Hello World")
+```
+
+
+```{r}
+x = 5
+y = 6
+print(x+y)
+```
+
+1. Data Types
+  - primitive data types - integer, numeric,character, logical, complex
+  - non primitive data types - vector, matrix, dataframe, list, arrays, factors
+  
+2. Control Flow
+  - if else
+  - for loop
+  - while loop
+
+3. Functions
+  - built in functions
+  - user defined functions
+  
+4. Packages and libraries
+
+## Data Types
+
+```{r}
+# numeric
+x = 5
+y <- 6.6
+10 -> z
+
+print(x)
+print(y)
+print(z)
+class(x)
+class(y)
+```
+
+```{r}
+# integer
+m = 25L
+print(m)
+class(m)
+```
+
+```{r}
+# character
+k = "Hello world"
+print(k)
+class(k)
+```
+```{r}
+# logical
+k = TRUE
+print(k)
+class(k)
+```
+```{r}
+# complex
+m = 5 + 6i
+print(m)
+class(m)
+```
+## non primitive data types
+### Vectors
+  - used to store multiple values, all the values should be of same data type 
+  - one dimensional
+  - used to store data, mathematical compuations
+  - can be defined using c()
+```{r}
+x = c(4,5,6,8)
+print(x)
+class(x)
+```
+```{r}
+length(x)
+```
+```{r}
+# add a new value to a vector
+x = c(7,8,5,2)
+print(x)
+x = c(x,12)
+print(x)
+```
+```{r}
+#indexing
+x[1]
+x[3]
+```
+```{r}
+# deleting a value based on index
+x = x[-3]
+print(x)
+```
+## Matrix
+- an extension of vectors, it is of multiple dimensions
+- all the values should be of one data type
+- can be defined using - matrix()
+```{r}
+m = matrix(c(7,8,5,9,5,3,3,6),nrow = 2,ncol = 4)
+print(m)
+class(m)
+dim(m)
+```
+```{r}
+m[2,4]
+```
+```{r}
+colnames(m) = c("Day1",'Day2','Day3','Day4')
+m
+```
+```{r}
+Day5 = c(12,15)
+cbind(m,Day5)
+```
+```{r}
+rbind(m,c(7,12,45,56))
+```
+
+### Dataframes
+- used to handle 2D data, one column can of different data type than other column
+- can be defined using data.frame()
+
+```{r}
+m = data.frame(
+  Name = c("John",'Max','Ketty','Georgia','Marco'),
+  Age = c(25,45,35,34,24),
+  City = c("KUL","CGK","DXB","KUL","AUH")
+)
+class(m)
+```
+```{r}
+m
+```
+```{r}
+str(m)
+```
+```{r}
+head(m)
+tail(m)
+colnames(m)
+nrow(m)
+dim(m)
+```
+
+
+```{r}
+summary(m)
+```
+```{r}
+m$Name
+```
+```{r}
+df = read.csv("D:\\AI\\data\\datasets-1\\Bank_churn_modelling.csv")
+dim(df)
+```
+```{r}
+head(df)
+```
+
+```{r}
+df$RowNumber = as.numeric(df$RowNumber)
+head(df)
+```
+```{r}
+
+```
+
