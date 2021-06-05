@@ -56,6 +56,9 @@ unique(df$Geography)
 ```{r}
 summary(df)
 ```
+```{r}
+length(unique(df$CustomerId))
+```
 
 
 Observations - 
@@ -64,3 +67,237 @@ Observations -
   - age,balance may have outliers
 
 ## 3. Data Cleaning
+  - Handle duplicate entries
+  - Handle missing values
+  - Handle unwanted columns
+  - Handle outliers
+```{r}
+# check for duplicates
+sum(duplicated(df))
+sum(duplicated(df$CustomerId))
+```
+THere are no duplicated rows presents
+```{r}
+# to see which rows are duplicated
+df[duplicated(df),]
+```
+
+```{r}
+# check for missing values
+colSums(is.na(df))
+```
+```{r}
+df[(is.na(df$Tenure)|(is.na(df$EstimatedSalary))),]
+```
+checking skewness
+```{r}
+library(moments)
+skewness(df[,c(8,13)],na.rm=TRUE)
+```
+As the attributes tenure and salary are almost normally distributed, we will impute the missing values
+by mean of the respective attribute
+```{r}
+df[is.na(df$Tenure),8] = mean(df$Tenure,na.rm=TRUE)
+df[is.na(df$EstimatedSalary),13] = mean(df$EstimatedSalary,na.rm=TRUE)
+colSums(is.na(df))
+```
+```{r}
+colnames(df)
+```
+```{r}
+# to drop all rows with missing values
+na.omit(object = df)
+# drop the rows where more than 50% of values are missing in the row
+thresh = 0.5*ncol(df)
+
+# keeping the rows where count of missing values are less than thresh
+df = df[rowSums(is.na(df))<thresh,]
+```
+
+```{r}
+# dropping the unwanted columns - rownumber, surname and customerID
+df = df[,c(-1,-2,-3)]
+```
+
+```{r}
+dim(df)
+head(df)
+
+```
+```{r}
+# check for outliers - using skewness approach
+skewness(df[,c(-2,-3)])
+```
+## 4. Exploratory Data Analytics - Root Cause Analytics
+
+  - Data Visualization
+    - Univariate Analysis - studying and analysing individual variables
+    - Bivariate Analsis - analsing effect of each variable on the target variable
+    - Multivariate Analysis - analyse effect of multiple columns together on target variable
+    
+  - Statistical Research
+    - Correlation Analysis
+    - ANOVA, Chi square test
+    
+### Univariate Analysis
+  - Categorical - discrete frequency distribution - barplot
+  - Numeric - continuous frequency distribution - histogram
+  
+```{r}
+library(ggplot2)
+library(ggcorrplot)
+library(ggbeeswarm)
+```
+
+```{r}
+ggplot(data=df,aes(x=Gender))+geom_bar()
+```
+```{r fig.height=4,fig.width=8}
+
+nums = c("CreditScore","Age","Tenure","Balance","NumOfProducts","EstimatedSalary")
+cats = c("Geography","Gender","HasCrCard","IsActiveMember","Exited")
+
+for (col in nums){
+  print(ggplot(data=df,aes_string(x=col))+geom_histogram())
+}
+
+for (col in cats){
+  print(ggplot(data=df,aes_string(x=col))+geom_bar())
+}
+
+
+```
+Observation - 
+  - approx 50 % of customers are from france, rest from spain and germany
+  - approx 70% of customers have creditcards
+  - approx 50% of customers are not active members
+  - approx 20% of customers left the bank
+  - Age has slightly right skewed distribution
+  - Tenure has almost uniform distribution
+  - there are profiles in context to balance, around 35% of customers have 0 balance, and rest have balance higher than 75k
+  - most of the customers have either 1 or 2 products.
+  - estimatedsalary has almost uniform distribution.
+
+
+### Bivariate Analysis
+  - numeric v/s numeric - scatterplot
+  - numeric v/s categorical - continuous probability density distribution of numeric variable
+  - categorical v/s categorical - discrete probability distribution of categorical variable
+
+```{r fig.height=4,fig.width=8}
+nums = c("CreditScore","Age","Tenure","Balance","NumOfProducts","EstimatedSalary")
+
+df$Exited = factor(df$Exited)
+for (col in nums){
+  print(ggplot(data=df,aes_string(x=col,fill='Exited',alpha=0.1))+geom_density())
+}
+```
+
+  categorical v/s categorical
+```{r}
+# Geography vs Exited
+ggplot(data=df,aes(x=Geography))+geom_bar()+facet_grid(cols=vars(Exited),margins=TRUE)
+```
+```{r}
+pivot = as.data.frame.matrix(table(df$Geography,df$Exited))
+pivot[,2]/rowSums(pivot)
+```
+```{r}
+cats = c("Geography","Gender","HasCrCard","IsActiveMember")
+for (col in cats){
+  print(col)
+  pivot = as.data.frame.matrix(table(df[,col],df$Exited))
+  print(pivot[,2]/rowSums(pivot))
+  print(" ")
+}
+```
+Multivariate Analysis
+  - categorical v/s numeric vs numeric - scatterplot
+  - categorical vs categorical vs numeric - swarmplot / boxplot / pointplot
+```{r fig.width=12,fig.height=5}
+# age v/s balance v/s exited
+ggplot(data=df,aes(x=Age,y=Balance,col=Exited,alpha=0.1))+geom_point()
+```
+```{r fig.width=20,fig.height=8}
+# age v/s geography v/s Exited
+ggplot(data = df,aes(x=Geography,y=Age,col=Exited,aplha=0.5))+geom_beeswarm()
+```
+Observation -
+Informative - Age, Balance, Numberofproducts, Geography, Gender, IsActiveMember
+
+## Statistical Research
+  - Correlation Analysis - linear patterns
+  - ANOVA - f test
+  - Chi Square test
+```{r fig.width=15,fig.height=7}
+# correlation Analysis
+df$Exited = as.numeric(df$Exited)
+corr = cor(df[,c(-2,-3)])
+library(ggcorrplot)
+ggcorrplot(corr,lab=TRUE)
+```
+
+### ANOVA - Analysis of Variance - f test
+
+  - Numeric v/s cateogrical
+  
+- used to compare means of two or more groups
+- for example - ANOVA can tell us whether mean of age of customers who left and mean of age of customers who did NOT leave are similar or different.
+
+  - Null Hypothesis: means of two groups are similar
+  - Alternate Hypothesis: means of two groups are not similar
+  
+When you apply ANOVA you get - pvalue
+  
+  For Business confidence (confidence Interval) of 95%
+  CI = 95% = 0.95, alpha = 1 - CI = 1 - 0.95 = 0.05
+  
+    - if pvalue > alpha = We fail to reject null hypothesis - feature is NOT important
+    - if pvalue < alpha = we succesfully reject null hypothesis - feature is important
+    
+```{r}
+df$Exited = as.numeric(df$Exited)
+nums = c("CreditScore","Age","Tenure","Balance","NumOfProducts","EstimatedSalary")
+df_nums = df[,nums]
+df_nums$Exited = df$Exited
+anova_output = aov(Exited~.,data=df_nums)
+# anova_op = aov(Exited~CreditScore+Age+Tenure+Balance+NumOfProducts+EstimatedSalary)
+summary(anova_output)
+
+```
+
+### Chi Square Test
+  
+  - categorical v/s categorical
+  - used to compare the distribution of a categorical variable in two or more groups
+  - for example it can tell us, ratio of leaving vs not leaving is same for male vs female or not
+  
+  - Null Hypothesis: distribution of the categorical variable is similar in two or more groups
+  - Alternate Hypothesis: distribution of the categorical variable is NOT similar in two or more groups
+  
+When you apply ANOVA you get - pvalue
+  
+  For Business confidence (confidence Interval) of 95%
+  CI = 95% = 0.95, alpha = 1 - CI = 1 - 0.95 = 0.05
+  
+    - if pvalue > alpha = We fail to reject null hypothesis - feature is NOT important
+    - if pvalue < alpha = we succesfully reject null hypothesis - feature is important
+  
+```{r}
+cats = c("Geography","Gender","HasCrCard","IsActiveMember")
+for (col in cats){
+  print(col)
+  print(chisq.test(x=df[,col],y=df$Exited))
+}
+```
+
+  
+  
+  
+  
+  
+  
+  
+
+
+
