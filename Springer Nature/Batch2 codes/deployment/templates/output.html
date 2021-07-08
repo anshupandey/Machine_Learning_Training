@@ -1,0 +1,19 @@
+<html>
+    <body>
+        <center>
+            <h1>Combined Cycle Power Plant Prediction Page</h1><hr>
+            <br><br>
+            <table border=2>
+                {% for key,value in output.items()%}
+                <tr>
+                    <th>{{key}}</th>
+                    <td>{{value}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <a href="http://127.0.0.1:5000/"><button> GO Back</button></a>
+            <br><br>
+            <hr><p>Designed by ABC Inc</p><hr>
+        </center>
+    </body>
+</html>
