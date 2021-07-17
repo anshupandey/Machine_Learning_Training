@@ -1,0 +1,1 @@
+{'greetings': ['hello dear, good morning', 'Hey hi good morning'], 'need-help': ['Hey I am John, I would be happy to help you', 'Hey Zara this side, I am here to help you']}

@@ -1,0 +1,1 @@
+{'greetings': ['hi', 'hi', 'hello', 'how are you', 'hey hi hello', 'hello good morning', 'hey hi good morning', 'hello hi hey howdy'], 'need-help': ['I need some help now', 'please help me now', 'can you help me now', 'somebody please assist me', 'I need some assistance here, please assist me', 'can anyone help me here', 'please help me']}
